@@ -1,3 +1,4 @@
 config.ini
 *.session
 *.json
+__pycache__
