@@ -1,0 +1,2 @@
+customtkinter==5.1.2
+Telethon==1.27.0

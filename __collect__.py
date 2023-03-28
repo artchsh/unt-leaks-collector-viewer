@@ -31,6 +31,7 @@ api_id = config['Telegram']['api_id']
 api_hash = config['Telegram']['api_hash']
 phone = config['Telegram']['phone']
 username = config['Telegram']['username']
+channel_url = username = config['Telegram']['channel_url']
 
 # Create the client and connect
 client = TelegramClient(username, api_id, api_hash)
@@ -50,7 +51,7 @@ async def main(phone):
     me = await client.get_me()
 
     # user_input_channel = input('enter entity(telegram URL or entity id):')
-    user_input_channel = 'https://t.me/entybt2023'
+    user_input_channel = channel_url
 
     if user_input_channel.isdigit():
         entity = PeerChannel(int(user_input_channel))
