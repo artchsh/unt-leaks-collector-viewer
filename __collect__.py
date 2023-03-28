@@ -1,7 +1,6 @@
 import configparser
 import json
-import asyncio
-from datetime import date, datetime
+from datetime import datetime
 
 from telethon import TelegramClient
 from telethon.errors import SessionPasswordNeededError
@@ -30,14 +29,12 @@ config.read("config.ini")
 # Setting configuration values
 api_id = config['Telegram']['api_id']
 api_hash = config['Telegram']['api_hash']
-
-api_hash = str(api_hash)
-
 phone = config['Telegram']['phone']
 username = config['Telegram']['username']
 
 # Create the client and connect
 client = TelegramClient(username, api_id, api_hash)
+
 
 async def main(phone):
     await client.start()
@@ -69,7 +66,6 @@ async def main(phone):
     total_count_limit = 0
 
     while True:
-        print("Current Offset ID is:", offset_id, "; Total Messages:", total_messages)
         history = await client(GetHistoryRequest(
             peer=my_channel,
             offset_id=offset_id,
@@ -90,12 +86,16 @@ async def main(phone):
         if total_count_limit != 0 and total_messages >= total_count_limit:
             break
 
+    print(f'Total collected messages: {total_messages}')
+
     with open('channel_messages.json', 'w') as outfile:
         json.dump(all_messages, outfile, cls=DateTimeEncoder)
+
 
 def start():
     with client:
         client.loop.run_until_complete(main(phone))
+
 
 if __name__ == '__main__':
     start()
